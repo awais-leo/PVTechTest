@@ -14,21 +14,22 @@
 
             if (zoneDeterminerParameters.AverageAlarmRate < 1)
             {
-                if (zoneDeterminerParameters.PercentageOutsideTarget <= 1) return "Robust";
-                if (zoneDeterminerParameters.PercentageOutsideTarget <= 25) return "Stable";
-                if (zoneDeterminerParameters.PercentageOutsideTarget <= 50) return "Reactive";
-                return "Overloaded";
+                if (zoneDeterminerParameters.PercentageOutsideTarget <= 1) return nameof(PerformancePoints.Robust);
+                if (zoneDeterminerParameters.PercentageOutsideTarget <= 25) return nameof(PerformancePoints.Stable);
+                if (zoneDeterminerParameters.PercentageOutsideTarget <= 50) return nameof(PerformancePoints.Reactive);
+                return nameof(PerformancePoints.Overloaded);
+                
             }
             else if (zoneDeterminerParameters.AverageAlarmRate < 10)
             {
-                if (zoneDeterminerParameters.PercentageOutsideTarget <= 1) return "Stable";
-                if (zoneDeterminerParameters.PercentageOutsideTarget <= 25) return "Reactive";
-                return "Overloaded";
+                if (zoneDeterminerParameters.PercentageOutsideTarget <= 1) return nameof(PerformancePoints.Stable);
+                if (zoneDeterminerParameters.PercentageOutsideTarget <= 25) return nameof(PerformancePoints.Reactive);
+                return nameof(PerformancePoints.Overloaded);
             }
             else
             {
-                if (zoneDeterminerParameters.PercentageOutsideTarget <= 1) return "Reactive";
-                return "Overloaded";
+                if (zoneDeterminerParameters.PercentageOutsideTarget <= 1) return nameof(PerformancePoints.Reactive);
+                return nameof(PerformancePoints.Overloaded);
             }
         }
 
