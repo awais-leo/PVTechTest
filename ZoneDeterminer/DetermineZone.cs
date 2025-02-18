@@ -6,7 +6,7 @@
         public double PercentageOutsideTarget { get; set; }
 
     }
-    public class DetermineZone
+    public class DetermineZone : IDetermineZone
     {
         public string Determine(ZoneDeterminerParameters zoneDeterminerParameters)
         {
@@ -14,10 +14,22 @@
 
             if (zoneDeterminerParameters.AverageAlarmRate < 1)
             {
-                if (zoneDeterminerParameters.PercentageOutsideTarget <= 1)
-                    return "Robust";
+                if (zoneDeterminerParameters.PercentageOutsideTarget <= 1) return "Robust";
+                if (zoneDeterminerParameters.PercentageOutsideTarget <= 25) return "Stable";
+                if (zoneDeterminerParameters.PercentageOutsideTarget <= 50) return "Reactive";
+                return "Overloaded";
             }
-            return "Stable";
+            else if (zoneDeterminerParameters.AverageAlarmRate < 10)
+            {
+                if (zoneDeterminerParameters.PercentageOutsideTarget <= 1) return "Stable";
+                if (zoneDeterminerParameters.PercentageOutsideTarget <= 25) return "Reactive";
+                return "Overloaded";
+            }
+            else
+            {
+                if (zoneDeterminerParameters.PercentageOutsideTarget <= 1) return "Reactive";
+                return "Overloaded";
+            }
         }
 
         private void ValidateInput(ZoneDeterminerParameters zoneDeterminerParameters)

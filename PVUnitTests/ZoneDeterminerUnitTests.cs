@@ -4,7 +4,7 @@ namespace PVUnitTests
 {
     public class Tests
     {
-        private DetermineZone determineZone;
+        private IDetermineZone determineZone;
         [SetUp]
         public void Setup()
         {
@@ -16,31 +16,32 @@ namespace PVUnitTests
         {
             Assert.Throws<ArgumentNullException>(() => determineZone.Determine(null));
         }
-        [Test]
-        [TestCase(51, 0)]
-        [TestCase(-0.1, 0)]
-        [TestCase(0, 101)]
-        [TestCase(0, -0.1)]
+        
+        [Test,TestCaseSource(typeof(TestData),nameof(TestData.TestCasesForRangeValidation))]
         public void WhenOutOfRangeParametersPasssed_ThenItReturnedArgumentOutOfRangeException(double averageAlarmrate,double percentageOutsideTarget)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => 
-            determineZone.Determine(new ZoneDeterminerParameters() 
+            var zoneDeterminerParameters = new ZoneDeterminerParameters()
             {
-                AverageAlarmRate = averageAlarmrate, PercentageOutsideTarget = percentageOutsideTarget
-            }));
+                AverageAlarmRate = averageAlarmrate,
+                PercentageOutsideTarget = percentageOutsideTarget
+            };
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => 
+            determineZone.Determine(zoneDeterminerParameters));
         }
-        [Test]
-        public void WhenZoneDeterminerParametersPassedWithValues_ThenCorrectResultreturned()
+
+        [Test, TestCaseSource(typeof(TestData), nameof(TestData.TestCasesForDetermineZone))]
+        public void WhenZoneDeterminerParametersPassedWithValues_ThenCorrectResultreturned(double averageAlarmRate, double percentageOutsideTarget, string expectedZone)
         {
             var zoneDeterminerParameters = new ZoneDeterminerParameters
             {
-                AverageAlarmRate = 0.5,
-                PercentageOutsideTarget = 1
+                AverageAlarmRate = averageAlarmRate,
+                PercentageOutsideTarget = percentageOutsideTarget
             };
                         
             var result=determineZone.Determine(zoneDeterminerParameters);
 
-            Assert.That(result, Is.EqualTo("Robust"));
+            Assert.That(result, Is.EqualTo(expectedZone));
             
         }
     }
