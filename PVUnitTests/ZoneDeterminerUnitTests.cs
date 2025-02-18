@@ -1,3 +1,5 @@
+using ZoneDeterminer;
+
 namespace PVUnitTests
 {
     public class Tests
@@ -24,23 +26,7 @@ namespace PVUnitTests
         }
     }
 
-    internal class ZoneDeterminerParameters
-    {
-        public double AverageAlarmRate { get; set; }
-        public double PercentageOutsideTarget { get; set; }
+   
 
-    }
-
-    internal class DetermineZone
-    {
-        public string Determine(ZoneDeterminerParameters zoneDeterminerParameters)
-        {
-            if (zoneDeterminerParameters.AverageAlarmRate <1)
-            {
-                if (zoneDeterminerParameters.PercentageOutsideTarget <= 1)
-                    return "Robust";
-            }
-            return "Stable";
-        }
-    }
+  
 }
