@@ -12,19 +12,35 @@ namespace PVUnitTests
         {
             var zoneDeterminerParameters = new ZoneDeterminerParameters
             {
-                AverageAlarmRate = 1,
+                AverageAlarmRate = 0.5,
                 PercentageOutsideTarget = 1
             };
 
-            Assert.That(zoneDeterminerParameters.AverageAlarmRate,Is.EqualTo(1));
-            Assert.That(zoneDeterminerParameters.AverageAlarmRate, Is.EqualTo(1));
+            var determineZone = new DetermineZone();
+            var result=determineZone.Determine(zoneDeterminerParameters);
+
+            Assert.That(result, Is.EqualTo("Robust"));
+            
         }
     }
 
     internal class ZoneDeterminerParameters
     {
-        public int AverageAlarmRate { get; set; }
-        public int PercentageOutsideTarget { get; set; }
+        public double AverageAlarmRate { get; set; }
+        public double PercentageOutsideTarget { get; set; }
 
+    }
+
+    internal class DetermineZone
+    {
+        public string Determine(ZoneDeterminerParameters zoneDeterminerParameters)
+        {
+            if (zoneDeterminerParameters.AverageAlarmRate <1)
+            {
+                if (zoneDeterminerParameters.PercentageOutsideTarget <= 1)
+                    return "Robust";
+            }
+            return "Stable";
+        }
     }
 }
