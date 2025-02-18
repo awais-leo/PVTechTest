@@ -8,9 +8,23 @@ namespace PVUnitTests
         }
 
         [Test]
-        public void Test1()
+        public void WhenZoneDeterminerParametersPassedWithValues_ThenCorrectResultreturned()
         {
-            Assert.Pass();
+            var zoneDeterminerParameters = new ZoneDeterminerParameters
+            {
+                AverageAlarmRate = 1,
+                PercentageOutsideTarget = 1
+            };
+
+            Assert.That(zoneDeterminerParameters.AverageAlarmRate,Is.EqualTo(1));
+            Assert.That(zoneDeterminerParameters.AverageAlarmRate, Is.EqualTo(1));
         }
+    }
+
+    internal class ZoneDeterminerParameters
+    {
+        public int AverageAlarmRate { get; set; }
+        public int PercentageOutsideTarget { get; set; }
+
     }
 }
